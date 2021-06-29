@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import android.content.Intent;
@@ -61,6 +62,13 @@ public class TimelineActivity extends AppCompatActivity {
             finish(); // navigate backwards to Login screen
         });
 
+        app.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                populateHomeTimeline();
+            }
+        });
+
     }
 
     @Override
@@ -98,8 +106,10 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG,"onSuccess"+json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
+                    adapter.clear();
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
                     adapter.notifyDataSetChanged();
+                    app.swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
                     Log.e(TAG,"JSON Exception",e);
                     e.printStackTrace();
