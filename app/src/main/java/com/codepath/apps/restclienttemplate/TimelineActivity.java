@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+
 
 import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -25,6 +24,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import okhttp3.Headers;
 
@@ -56,12 +56,9 @@ public class TimelineActivity extends AppCompatActivity {
 
         populateHomeTimeline();
 
-        app.btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                client.clearAccessToken(); // forget who's logged in
-                finish(); // navigate backwards to Login screen
-            }
+        Objects.requireNonNull(app.btnLogout).setOnClickListener(v -> {
+            client.clearAccessToken(); // forget who's logged in
+            finish(); // navigate backwards to Login screen
         });
 
     }
@@ -85,6 +82,7 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+            assert data != null;
             Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
             tweets.add(0,tweet);
             adapter.notifyItemInserted(0);

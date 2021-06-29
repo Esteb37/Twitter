@@ -1,7 +1,5 @@
 package com.codepath.apps.restclienttemplate.models;
 
-import android.text.format.DateUtils;
-import android.util.JsonReader;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -14,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 @Parcel
 public class Tweet {
@@ -24,6 +23,7 @@ public class Tweet {
     public User user;
 
     public Tweet(){}
+
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
         tweet.body = jsonObject.getString("text");
@@ -53,7 +53,7 @@ public class Tweet {
         sf.setLenient(true);
 
         try {
-            long time = sf.parse(rawJsonDate).getTime();
+            long time = Objects.requireNonNull(sf.parse(rawJsonDate)).getTime();
             long now = System.currentTimeMillis();
 
             final long diff = now - time;

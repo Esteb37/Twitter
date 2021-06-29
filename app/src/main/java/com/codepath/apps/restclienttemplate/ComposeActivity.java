@@ -4,14 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.databinding.ActivityComposeBinding;
-import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
@@ -38,42 +35,39 @@ public class ComposeActivity extends AppCompatActivity {
 
         client = TwitterApp.getRestClient(this);
 
-        app.btnTweet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String tweetContent = app.etCompose.getText().toString();
-                if(tweetContent.isEmpty()){
-                    Toast.makeText(ComposeActivity.this, "Tweet cannot be empty.", Toast.LENGTH_SHORT).show();
-                }
-                if(tweetContent.length()>MAX_TWEET_LENGTH){
-                    Toast.makeText(ComposeActivity.this, "Tweet is too long.", Toast.LENGTH_LONG).show();
-                }
-                else{
-                    client.publishTweet(tweetContent, new JsonHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Headers headers, JSON json) {
-                            Log.d(TAG,"onSuccess");
-                            try {
-                                Tweet tweet = Tweet.fromJson(json.jsonObject);
-                                Log.d(TAG,"Published tweet says "+tweet.body);
-                                Intent i = new Intent();
-                                i.putExtra("tweet", Parcels.wrap(tweet));
-                                setResult(RESULT_OK,i);
-                                finish();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                            Log.d(TAG,"onFailure");
-                        }
-                    });
-                }
-
-
+        app.btnTweet.setOnClickListener(v -> {
+            String tweetContent = app.etCompose.getText().toString();
+            if(tweetContent.isEmpty()){
+                Toast.makeText(ComposeActivity.this, "Tweet cannot be empty.", Toast.LENGTH_SHORT).show();
             }
+            if(tweetContent.length()>MAX_TWEET_LENGTH){
+                Toast.makeText(ComposeActivity.this, "Tweet is too long.", Toast.LENGTH_LONG).show();
+            }
+            else{
+                client.publishTweet(tweetContent, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Headers headers, JSON json) {
+                        Log.d(TAG,"onSuccess");
+                        try {
+                            Tweet tweet = Tweet.fromJson(json.jsonObject);
+                            Log.d(TAG,"Published tweet says "+tweet.body);
+                            Intent i = new Intent();
+                            i.putExtra("tweet", Parcels.wrap(tweet));
+                            setResult(RESULT_OK,i);
+                            finish();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                        Log.d(TAG,"onFailure");
+                    }
+                });
+            }
+
+
         });
 
     }
