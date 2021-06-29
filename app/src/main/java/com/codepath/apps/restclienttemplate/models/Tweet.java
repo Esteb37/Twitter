@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-@Parcel
 public class Tweet {
 
     private static final String TAG = "Tweet" ;
@@ -22,25 +21,27 @@ public class Tweet {
     public String createdAt;
     public User user;
     public Media photo;
+    public String id;
 
     public Tweet(){}
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
         tweet.body = jsonObject.getString("text");
-        tweet.createdAt  = jsonObject.getString("created_at");
+        tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.id = jsonObject.getString("id_str");
         tweet.photo = null;
 
         try{
             JSONObject extendedEntities = jsonObject.getJSONObject("extended_entities");
+            JSONArray media = extendedEntities.getJSONArray("media");
+            tweet.photo = new Media(media.getJSONObject(0));
 
-            if(extendedEntities!=null){
-                JSONArray media = extendedEntities.getJSONArray("media");
-                tweet.photo = new Media(media.getJSONObject(0));
-            }
         }
-        catch(JSONException e){};
+        catch(JSONException e){
+            Log.e(TAG, String.valueOf(e));
+        }
 
 
         return tweet;

@@ -33,12 +33,16 @@ public class TimelineActivity extends AppCompatActivity {
     List<Tweet> tweets;
     TweetsAdapter adapter;
     ActivityTimelineBinding app;
+    MenuItem miActionProgressItem;
+    String maxId = "0";
+
     public static final int REQUEST_CODE = 37;
 
     public static final String TAG = "TimelineActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
@@ -48,8 +52,14 @@ public class TimelineActivity extends AppCompatActivity {
 
         client = TwitterApp.getRestClient(this);
 
+        TweetsAdapter.OnScrollListener scrollListener = position -> {
+            Log.i("Scroll", String.valueOf(position));
+            if(position>=tweets.size()-1){
+                fetchTweets(maxId);
+            }
+        };
         tweets = new ArrayList<>();
-        adapter = new TweetsAdapter(this, tweets);
+        adapter = new TweetsAdapter(this, tweets, scrollListener);
 
         app.rvTweets.setLayoutManager(new LinearLayoutManager(this));
         app.rvTweets.setAdapter(adapter);
@@ -69,6 +79,24 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
     }
 
     @Override
@@ -104,6 +132,7 @@ public class TimelineActivity extends AppCompatActivity {
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
                     adapter.notifyDataSetChanged();
                     app.swipeContainer.setRefreshing(false);
+                    maxId = tweets.get(tweets.size()-1).id;
                 } catch (JSONException e) {
                     Log.e(TAG,"JSON Exception",e);
                     e.printStackTrace();
@@ -116,8 +145,31 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG,"onFail",throwable);
             }
         });
+    }
 
+    private void fetchTweets(String max){
+        Log.i("maxId", max);
+        client.getHomeTimeline(max,new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                Log.i(TAG,"onSuccess"+json.toString());
+                JSONArray jsonArray = json.jsonArray;
+                try {
+                    tweets.addAll(Tweet.fromJsonArray(jsonArray));
+                    adapter.notifyDataSetChanged();
+                    maxId = tweets.get(tweets.size()-1).id;
+                } catch (JSONException e) {
+                    Log.e(TAG,"JSON Exception",e);
+                    e.printStackTrace();
+                }
 
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.i(TAG,"onFail",throwable);
+            }
+        });
     }
 
 }

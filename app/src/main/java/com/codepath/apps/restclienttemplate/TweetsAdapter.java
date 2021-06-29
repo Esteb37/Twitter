@@ -24,10 +24,17 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     Context context;
     List<Tweet> tweets;
 
-    public TweetsAdapter(Context context, List<Tweet> tweets) {
+    //Listener for recyclerview scrolling
+    public interface OnScrollListener { void onScroll(int position);}
+    OnScrollListener scrollListener;
+
+    public TweetsAdapter(Context context, List<Tweet> tweets, OnScrollListener scrollListener) {
         this.context = context;
         this.tweets = tweets;
+        this.scrollListener = scrollListener;
     }
+
+
 
     @NonNull
     @NotNull
@@ -41,6 +48,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
         Tweet tweet = tweets.get(position);
         holder.bind(tweet);
+        if (scrollListener != null)  scrollListener.onScroll(position);
     }
 
     @Override
@@ -77,9 +85,11 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     .into(ivProfileImage);
 
             if(tweet.photo!=null){
+                ivMedia.setVisibility(View.VISIBLE);
                 Glide.with(context).load(tweet.photo.url)
                         .transform(new CenterCrop(), new RoundedCorners(30))
                         .into(ivMedia);
+
             }
             else{
                 ivMedia.setVisibility(View.GONE);
