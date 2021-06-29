@@ -21,6 +21,7 @@ public class Tweet {
     public String body;
     public String createdAt;
     public User user;
+    public Media photo;
 
     public Tweet(){}
 
@@ -29,6 +30,19 @@ public class Tweet {
         tweet.body = jsonObject.getString("text");
         tweet.createdAt  = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.photo = null;
+
+        try{
+            JSONObject extendedEntities = jsonObject.getJSONObject("extended_entities");
+
+            if(extendedEntities!=null){
+                JSONArray media = extendedEntities.getJSONArray("media");
+                tweet.photo = new Media(media.getJSONObject(0));
+            }
+        }
+        catch(JSONException e){};
+
+
         return tweet;
     }
 

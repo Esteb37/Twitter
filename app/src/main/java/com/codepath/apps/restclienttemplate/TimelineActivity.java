@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import android.content.Intent;
@@ -62,12 +61,7 @@ public class TimelineActivity extends AppCompatActivity {
             finish(); // navigate backwards to Login screen
         });
 
-        app.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                populateHomeTimeline();
-            }
-        });
+        app.swipeContainer.setOnRefreshListener(this::populateHomeTimeline);
 
     }
 
