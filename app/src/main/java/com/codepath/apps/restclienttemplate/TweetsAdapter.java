@@ -40,10 +40,14 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     public interface OnScrollListener { void onScroll(int position);}
     OnScrollListener scrollListener;
 
-    public TweetsAdapter(Context context, List<Tweet> tweets, OnScrollListener scrollListener) {
+    public interface OnClickListener { void onItemClicked(int position);}
+    OnClickListener clickListener;
+
+    public TweetsAdapter(Context context, List<Tweet> tweets, OnScrollListener scrollListener, OnClickListener clickListener) {
         this.context = context;
         this.tweets = tweets;
         this.scrollListener = scrollListener;
+        this.clickListener = clickListener;
     }
 
 
@@ -92,6 +96,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             btnLike = itemView.findViewById(R.id.btnLike);
             btnComment = itemView.findViewById(R.id.btnComment);
             btnRetweet = itemView.findViewById(R.id.btnRetweet);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onItemClicked(getAdapterPosition());
+                }
+            });
         }
 
         public void bind(Tweet tweet){
@@ -113,89 +124,79 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 ivMedia.setVisibility(View.GONE);
             }
 
-            btnLike.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(tweet.liked){
-                        client.unlikeTweet(tweet.id, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                Log.d("Unliked","true");
-                                tweet.liked = false;
-                                btnLike.setImageResource(R.drawable.ic_vector_heart_stroke);
-                            }
+            btnLike.setOnClickListener(v -> {
+                if(tweet.liked){
+                    client.unlikeTweet(tweet.id, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                            Log.d("Unliked","true");
+                            tweet.liked = false;
+                            btnLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+                        }
 
-                            @Override
-                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.d("Unliked","false "+response);
-                            }
-                        });
-                    }
-                    else{
-                        client.likeTweet(tweet.id, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                Log.d("Liked","true");
-                                btnLike.setImageResource(R.drawable.ic_vector_heart);
-                                tweet.liked = true;
-                            }
-
-                            @Override
-                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.d("Liked","false "+response);
-                            }
-                        });
-                    }
-
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.d("Unliked","false "+response);
+                        }
+                    });
                 }
-            });
+                else{
+                    client.likeTweet(tweet.id, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                            Log.d("Liked","true");
+                            btnLike.setImageResource(R.drawable.ic_vector_heart);
+                            tweet.liked = true;
+                        }
 
-            btnComment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("Tweet",Parcels.wrap(tweet));
-                    ReplyFragment replyFragment = ReplyFragment.newInstance("Reply");
-                    replyFragment.setArguments(bundle);
-                    replyFragment.show(fm, "activity_reply");
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.d("Liked","false "+response);
+                        }
+                    });
                 }
 
             });
 
-            btnRetweet.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    if(tweet.retweeted){
-                        client.unretweetTweet(tweet.id, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                Log.d("Unretweeted","true");
-                                tweet.retweeted = false;
-                                btnRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
-                            }
+            btnComment.setOnClickListener(v -> {
+                FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("Tweet",Parcels.wrap(tweet));
+                ReplyFragment replyFragment = ReplyFragment.newInstance("Reply");
+                replyFragment.setArguments(bundle);
+                replyFragment.show(fm, "activity_reply");
+            });
 
-                            @Override
-                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.d("Unretweeted","false "+response);
-                            }
-                        });
-                    }
-                    else{
-                        client.retweetTweet(tweet.id, new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                Log.d("Retweeted","true");
-                                btnRetweet.setImageResource(R.drawable.ic_vector_retweet);
-                                tweet.retweeted = true;
-                            }
+            btnRetweet.setOnClickListener(v -> {
+                if(tweet.retweeted){
+                    client.unretweetTweet(tweet.id, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                            Log.d("Unretweeted","true");
+                            tweet.retweeted = false;
+                            btnRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+                        }
 
-                            @Override
-                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.d("Retweeted","false "+response);
-                            }
-                        });
-                    }
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.d("Unretweeted","false "+response);
+                        }
+                    });
+                }
+                else{
+                    client.retweetTweet(tweet.id, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                            Log.d("Retweeted","true");
+                            btnRetweet.setImageResource(R.drawable.ic_vector_retweet);
+                            tweet.retweeted = true;
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.d("Retweeted","false "+response);
+                        }
+                    });
                 }
             });
         }

@@ -34,7 +34,7 @@ public class TimelineActivity extends AppCompatActivity {
     List<Tweet> tweets;
     TweetsAdapter adapter;
     ActivityTimelineBinding app;
-    MenuItem miActionProgressItem;
+    MenuItem progressBar;
     String maxId = "0";
 
     public static final int REQUEST_CODE = 37;
@@ -46,6 +46,8 @@ public class TimelineActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
+
+
 
         app = ActivityTimelineBinding.inflate(getLayoutInflater());
         View view = app.getRoot();
@@ -59,8 +61,16 @@ public class TimelineActivity extends AppCompatActivity {
                 fetchTweets(maxId);
             }
         };
+
+        TweetsAdapter.OnClickListener clickListener = position -> {
+            Intent i = new Intent(this,DetailActivity.class);
+            i.putExtra("tweet",Parcels.wrap(tweets.get(position)));
+            startActivity(i);
+        };
+
         tweets = new ArrayList<>();
-        adapter = new TweetsAdapter(this, tweets, scrollListener);
+
+        adapter = new TweetsAdapter(this, tweets, scrollListener,clickListener);
 
         app.rvTweets.setLayoutManager(new LinearLayoutManager(this));
         app.rvTweets.setAdapter(adapter);
@@ -84,20 +94,16 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        // Store instance of the menu item containing progress
-        miActionProgressItem = menu.findItem(R.id.miActionProgress);
-        // Return to finish
+        progressBar = menu.findItem(R.id.miActionProgress);
         return super.onPrepareOptionsMenu(menu);
     }
 
     public void showProgressBar() {
-        // Show progress item
-        miActionProgressItem.setVisible(true);
+        progressBar.setVisible(true);
     }
 
     public void hideProgressBar() {
-        // Hide progress item
-        miActionProgressItem.setVisible(false);
+        progressBar.setVisible(false);
     }
 
     @Override
@@ -124,6 +130,7 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     private void populateHomeTimeline() {
+
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -136,6 +143,7 @@ public class TimelineActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     app.swipeContainer.setRefreshing(false);
                     maxId = tweets.get(tweets.size()-1).id;
+
                 } catch (JSONException e) {
                     Log.e(TAG,"JSON Exception",e);
                     e.printStackTrace();

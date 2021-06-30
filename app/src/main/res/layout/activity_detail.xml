@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailActivity">
+
+    <ImageView
+        android:id="@+id/ivDProfilePicture"
+        android:layout_width="78dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars"
+        android:contentDescription="@string/profile_image" />
+
+    <TextView
+        android:id="@+id/tvDName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/ivDProfilePicture"
+        app:layout_constraintTop_toTopOf="@+id/ivDProfilePicture"
+        tools:text="Estebanquito" />
+
+    <TextView
+        android:id="@+id/tvDScreenName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ivDProfilePicture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/ivDProfilePicture"
+        tools:text="@estebanquitoPC" />
+
+    <TextView
+        android:id="@+id/tvDContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/ivDProfilePicture"
+        app:layout_constraintTop_toBottomOf="@+id/ivDProfilePicture"
+        tools:text="This is a Tweet" />
+
+    <TextView
+        android:id="@+id/tvDTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/tvDContent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDContent"
+        tools:text="4:54 p.m." />
+
+    <TextView
+        android:id="@+id/tvDDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@+id/tvDTime"
+        app:layout_constraintTop_toTopOf="@+id/tvDTime"
+        tools:text="19 jun. 21" />
+
+    <TextView
+        android:id="@+id/tvDSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@+id/tvDDate"
+        app:layout_constraintTop_toTopOf="@+id/tvDDate"
+        tools:text="Twitter for Iphone" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@+id/tvDDate" />
+
+    <TextView
+        android:id="@+id/tvDRetweets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/tvDTime"
+        app:layout_constraintTop_toBottomOf="@id/divider2"
+        tools:text="484" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="@string/retweets"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDRetweets"
+        app:layout_constraintStart_toEndOf="@+id/tvDRetweets"
+        app:layout_constraintTop_toTopOf="@+id/tvDRetweets" />
+
+    <TextView
+        android:id="@+id/tvDLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView8"
+        app:layout_constraintStart_toEndOf="@+id/textView8"
+        app:layout_constraintTop_toTopOf="@+id/textView8"
+        tools:text="1,300" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="@string/likes"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDLikes"
+        app:layout_constraintStart_toEndOf="@+id/tvDLikes"
+        app:layout_constraintTop_toTopOf="@+id/tvDLikes" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider3">
+
+        <ImageButton
+            android:id="@+id/btnDComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/vector_compose_dm_fab"
+            android:contentDescription="@string/comment" />
+
+        <ImageButton
+            android:id="@+id/btnDRetweet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_vector_retweet_stroke"
+            android:contentDescription="@string/retweet" />
+
+        <ImageButton
+            android:id="@+id/btnDLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_vector_heart_stroke"
+            android:contentDescription="@string/like" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

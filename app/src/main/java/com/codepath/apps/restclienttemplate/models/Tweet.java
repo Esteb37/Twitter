@@ -16,37 +16,53 @@ import java.util.Objects;
 @Parcel
 public class Tweet {
 
-    private static final String TAG = "Tweet" ;
+    private static final String TAG = "Tweet";
     public String body;
     public String createdAt;
     public User user;
+    public User retweeter;
     public Media photo;
     public String id;
     public boolean liked;
     public boolean retweeted;
+    public String likes;
+    public String retweets;
+    public String source;
 
-    public Tweet(){}
+    public Tweet() {
+    }
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
-        tweet.body = jsonObject.getString("text");
-        tweet.createdAt = jsonObject.getString("created_at");
-        tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
-        tweet.id = jsonObject.getString("id_str");
-        tweet.liked = jsonObject.getBoolean("favorited");
-        tweet.retweeted = jsonObject.getBoolean("retweeted");
-
-        tweet.photo = null;
-
         try{
-            JSONObject extendedEntities = jsonObject.getJSONObject("extended_entities");
-            JSONArray media = extendedEntities.getJSONArray("media");
-            tweet.photo = new Media(media.getJSONObject(0));
+            JSONObject retweetStatus = jsonObject.getJSONObject("retweeted_status");
+            tweet = fromJson(retweetStatus);
+            tweet.retweeter = User.fromJson(jsonObject.getJSONObject("user"));
+
+        }catch(JSONException e){
+            tweet.body = jsonObject.getString("text");
+            tweet.createdAt = jsonObject.getString("created_at");
+            tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+            tweet.id = jsonObject.getString("id_str");
+            tweet.liked = jsonObject.getBoolean("favorited");
+            tweet.retweeted = jsonObject.getBoolean("retweeted");
+            tweet.likes = jsonObject.getString("favorite_count");
+            tweet.retweets = jsonObject.getString("retweet_count");
+            tweet.source = jsonObject.getString("source");
+
+            tweet.photo = null;
+
+            try {
+                JSONObject extendedEntities = jsonObject.getJSONObject("extended_entities");
+                JSONArray media = extendedEntities.getJSONArray("media");
+                tweet.photo = new Media(media.getJSONObject(0));
+            } catch (JSONException e2) {
+                Log.e(TAG, String.valueOf(e2));
+            }
 
         }
-        catch(JSONException e){
-            Log.e(TAG, String.valueOf(e));
-        }
+
+
 
 
         return tweet;
@@ -55,7 +71,7 @@ public class Tweet {
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
         List<Tweet> tweets = new ArrayList<>();
 
-        for(int i = 0;i< jsonArray.length();i++){
+        for (int i = 0; i < jsonArray.length(); i++) {
             tweets.add(fromJson(jsonArray.getJSONObject(i)));
         }
         return tweets;
@@ -99,4 +115,8 @@ public class Tweet {
 
         return "";
     }
+
+
+
+
 }

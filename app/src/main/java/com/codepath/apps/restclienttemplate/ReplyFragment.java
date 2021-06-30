@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import com.codepath.apps.restclienttemplate.databinding.FragmentReplyBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
@@ -19,14 +18,11 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
-import java.util.Objects;
 
 import okhttp3.Headers;
 
 public class ReplyFragment extends DialogFragment implements View.OnClickListener {
 
-
-    FragmentReplyBinding app;
     TwitterClient client;
     public static final String TAG ="ReplyActivity";
     public static final int MAX_TWEET_LENGTH = 140;

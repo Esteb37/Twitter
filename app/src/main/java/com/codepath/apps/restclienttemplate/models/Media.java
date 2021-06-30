@@ -9,7 +9,7 @@ public class Media {
 
     public String url;
 
-    Media(){};
+    Media(){}
 
     Media(JSONObject jsonObject) throws JSONException {
         url = jsonObject.getString("media_url_https");
