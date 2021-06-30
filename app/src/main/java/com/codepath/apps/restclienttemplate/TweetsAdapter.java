@@ -1,9 +1,12 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,15 +17,19 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import okhttp3.Headers;
+
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder>{
 
     Context context;
     List<Tweet> tweets;
+    TwitterClient client;
 
     //Listener for recyclerview scrolling
     public interface OnScrollListener { void onScroll(int position);}
@@ -48,6 +55,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
         Tweet tweet = tweets.get(position);
         holder.bind(tweet);
+        client = TwitterApp.getRestClient(context);
         if (scrollListener != null)  scrollListener.onScroll(position);
     }
 
@@ -65,7 +73,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvName;
         TextView tvTime;
         ImageView ivMedia;
-
+        ImageButton btnLike;
+        ImageButton btnComment;
+        ImageButton btnRetweet;
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
@@ -74,6 +84,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvName = itemView.findViewById(R.id.tvName);
             tvTime = itemView.findViewById(R.id.tvTime);
             ivMedia = itemView.findViewById(R.id.ivMedia);
+            btnLike = itemView.findViewById(R.id.btnLike);
         }
 
         public void bind(Tweet tweet){
@@ -94,6 +105,43 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             else{
                 ivMedia.setVisibility(View.GONE);
             }
+
+            btnLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(tweet.liked){
+                        client.unlikeTweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.d("Unliked","true");
+                                tweet.liked = false;
+                                btnLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.d("Unliked","false "+response);
+                            }
+                        });
+                    }
+                    else{
+                        client.likeTweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.d("Liked","true");
+                                btnLike.setImageResource(R.drawable.ic_vector_heart);
+                                tweet.liked = true;
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.d("Liked","false "+response);
+                            }
+                        });
+                    }
+
+                }
+            });
         }
     }
 

@@ -62,7 +62,7 @@
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
         android:layout_toEndOf="@+id/tvHandle"
-        android:text="9h" />
+        tools:text="9h" />
 
     <ImageView
         android:id="@+id/ivMedia"
@@ -75,6 +75,68 @@
         android:layout_marginEnd="0dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:scaleType="centerCrop"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        tools:srcCompat="@tools:sample/backgrounds/scenic"
+        android:contentDescription="@string/media" />
+
+    <LinearLayout
+        android:id="@+id/llButtons"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/ivMedia"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="-2dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnComment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/comment"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/vector_compose_dm_fab"
+            app:tint="#000000"
+            tools:srcCompat="@drawable/vector_compose_dm_fab" />
+
+        <ImageButton
+            android:id="@+id/btnRetweet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_weight="1"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/retweet"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_vector_retweet_stroke"
+            tools:srcCompat="@drawable/ic_vector_retweet_stroke" />
+
+        <ImageButton
+            android:id="@+id/btnLike"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/like"
+            android:padding="10dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_vector_heart_stroke"
+            tools:srcCompat="@drawable/ic_vector_heart_stroke" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/llButtons"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:background="?android:attr/listDivider" />
 
 </RelativeLayout>

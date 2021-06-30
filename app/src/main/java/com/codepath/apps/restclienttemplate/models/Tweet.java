@@ -22,6 +22,7 @@ public class Tweet {
     public User user;
     public Media photo;
     public String id;
+    public boolean liked;
 
     public Tweet(){}
 
@@ -31,6 +32,8 @@ public class Tweet {
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.id = jsonObject.getString("id_str");
+        tweet.liked = jsonObject.getBoolean("favorited");
+
         tweet.photo = null;
 
         try{

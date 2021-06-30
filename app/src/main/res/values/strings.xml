@@ -10,5 +10,9 @@
     <string name="button">Button</string>
     <string name="tweet">Tweet</string>
     <string name="what_s_on_your_mind">What\'s on your mind?</string>
+    <string name="media">Media</string>
+    <string name="comment">Comment</string>
+    <string name="retweet">Retweet</string>
+    <string name="like">Like</string>
 
 </resources>
