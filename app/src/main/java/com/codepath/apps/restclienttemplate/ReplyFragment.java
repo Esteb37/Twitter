@@ -11,34 +11,33 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import com.codepath.apps.restclienttemplate.databinding.FragmentComposeBinding;
+import com.codepath.apps.restclienttemplate.databinding.FragmentReplyBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.util.Objects;
 
 import okhttp3.Headers;
 
-public class ComposeFragment extends DialogFragment implements View.OnClickListener {
+public class ReplyFragment extends DialogFragment implements View.OnClickListener {
 
 
+    FragmentReplyBinding app;
     TwitterClient client;
-    public static final String TAG ="ComposeActivity";
+    public static final String TAG ="ReplyActivity";
     public static final int MAX_TWEET_LENGTH = 140;
-
-    Button btnTweet;
-    EditText etCompose;
-
-
-    public ComposeFragment() {
+    Button btnReply;
+    EditText etReply;
+    public ReplyFragment() {
 
     }
 
-    public static ComposeFragment newInstance(String title) {
-        ComposeFragment frag = new ComposeFragment();
+    public static ReplyFragment newInstance(String title) {
+        ReplyFragment frag = new ReplyFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         frag.setArguments(args);
@@ -49,17 +48,19 @@ public class ComposeFragment extends DialogFragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_compose,
+
+        View view = inflater.inflate(R.layout.fragment_reply,
                 container, false);
 
-        btnTweet= view.findViewById(R.id.btnTweet);
-        etCompose= view.findViewById(R.id.etCompose);
+        etReply = view.findViewById(R.id.etReply);
+        btnReply = view.findViewById(R.id.btnReply);
 
         client = TwitterApp.getRestClient(getActivity());
 
 
-        btnTweet.setOnClickListener(v -> {
-            String tweetContent = Objects.requireNonNull(etCompose.getText()).toString();
+
+        btnReply.setOnClickListener(v -> {
+            String tweetContent = String.valueOf(etReply.getText());
             if(tweetContent.isEmpty()){
                 Toast.makeText(getActivity(),
                         "Tweet cannot be empty.",
@@ -69,7 +70,10 @@ public class ComposeFragment extends DialogFragment implements View.OnClickListe
                 Toast.makeText(getActivity(), "Tweet is too long.", Toast.LENGTH_LONG).show();
             }
             else{
-                client.publishTweet(tweetContent, new JsonHttpResponseHandler() {
+                Bundle bundle = this.getArguments();
+                assert bundle != null;
+                Tweet tweet = Parcels.unwrap(bundle.getParcelable("Tweet"));
+                client.replyTweet(tweet,tweetContent, new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {
                         Log.d(TAG,"onSuccess");
@@ -92,7 +96,7 @@ public class ComposeFragment extends DialogFragment implements View.OnClickListe
 
         });
 
-        return inflater.inflate(R.layout.fragment_compose, container);
+        return view;
     }
 
     @Override

@@ -14,5 +14,7 @@
     <string name="comment">Comment</string>
     <string name="retweet">Retweet</string>
     <string name="like">Like</string>
+    <string name="reply">Reply</string>
+    <string name="tweet_your_reply">Tweet your reply</string>
 
 </resources>

@@ -128,6 +128,7 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG,"onSuccess"+json.toString());
+                Log.i(TAG,"onSuccess"+json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
                     adapter.clear();

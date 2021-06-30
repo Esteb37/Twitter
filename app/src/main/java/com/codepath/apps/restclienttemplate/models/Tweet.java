@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-
+@Parcel
 public class Tweet {
 
     private static final String TAG = "Tweet" ;
