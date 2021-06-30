@@ -162,6 +162,42 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 }
 
             });
+
+            btnRetweet.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    if(tweet.retweeted){
+                        client.unretweetTweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.d("Unretweeted","true");
+                                tweet.retweeted = false;
+                                btnRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.d("Unretweeted","false "+response);
+                            }
+                        });
+                    }
+                    else{
+                        client.retweetTweet(tweet.id, new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.d("Retweeted","true");
+                                btnRetweet.setImageResource(R.drawable.ic_vector_retweet);
+                                tweet.retweeted = true;
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.d("Retweeted","false "+response);
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 
