@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -36,7 +37,9 @@ public class DetailActivity extends AppCompatActivity {
         app.tvDContent.setText(tweet.body);
         app.tvDLikes.setText(String.valueOf(tweet.likes));
         app.tvDRetweets.setText(String.valueOf(tweet.retweets));
-        app.tvDSource.setText(tweet.source);
+        app.tvDSource.setText(Html.fromHtml(tweet.source));
+        app.tvDDate.setText(tweet.date);
+        app.tvDTime.setText(tweet.time);
 
         Glide.with(this).load(tweet.user.profileImageUrl)
                 .transform(new FitCenter(), new RoundedCorners(100))

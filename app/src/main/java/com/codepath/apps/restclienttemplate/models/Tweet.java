@@ -10,6 +10,7 @@ import org.parceler.Parcel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -28,6 +29,8 @@ public class Tweet {
     public String likes;
     public String retweets;
     public String source;
+    public String date;
+    public String time;
 
     public Tweet() {
     }
@@ -49,6 +52,8 @@ public class Tweet {
             tweet.likes = jsonObject.getString("favorite_count");
             tweet.retweets = jsonObject.getString("retweet_count");
             tweet.source = jsonObject.getString("source");
+            tweet.date = getDate(tweet.createdAt);
+            tweet.time = getTime(tweet.createdAt);
 
             tweet.photo = null;
 
@@ -116,7 +121,19 @@ public class Tweet {
         return "";
     }
 
+    public static String getDate(String rawDate){
+        String[] date = rawDate.split(" ");
+        String day = date[2];
+        String month = date[1];
+        String year = date[5].substring(2);
+        return String.format("%s %s. %s",day,month,year);
+    }
 
+    public static String getTime(String rawDate){
+        String[] date = rawDate.split(" ");
+        String time = date[3].substring(0,5);
+        return time;
+    }
 
 
 }
