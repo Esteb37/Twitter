@@ -1,22 +1,17 @@
 package com.codepath.apps.restclienttemplate;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
-
-import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
+import com.bumptech.glide.Glide;
+import com.codepath.apps.restclienttemplate.databinding.ActivityProfileBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -25,46 +20,42 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import okhttp3.Headers;
 
-public class TimelineActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
+
+    ActivityProfileBinding app;
     TwitterClient client;
     List<Tweet> tweets;
     TweetsAdapter adapter;
-    ActivityTimelineBinding app;
-    MenuItem progressBar;
-    String maxId = "0";
-
-    public static final int REQUEST_CODE = 37;
-
-    public static final String TAG = "TimelineActivity";
+    String maxId = "";
+    User user;
+    public static final String TAG = "ActivityProfile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timeline);
+        setContentView(R.layout.activity_profile);
 
-
-
-        app = ActivityTimelineBinding.inflate(getLayoutInflater());
+        app = ActivityProfileBinding.inflate(getLayoutInflater());
         View view = app.getRoot();
         setContentView(view);
 
         client = TwitterApp.getRestClient(this);
 
+        user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
+
         TweetsAdapter.OnScrollListener scrollListener = position -> {
             Log.i("Scroll", String.valueOf(position));
             if(position>=tweets.size()-1){
-                fetchTweets(maxId);
+                fetchTweets(user,maxId);
             }
         };
 
         TweetsAdapter.OnClickListener clickListener = position -> {
             Intent i = new Intent(this,DetailActivity.class);
-            i.putExtra("tweet",Parcels.wrap(tweets.get(position)));
+            i.putExtra("tweet", Parcels.wrap(tweets.get(position)));
             startActivity(i);
         };
 
@@ -73,66 +64,28 @@ public class TimelineActivity extends AppCompatActivity {
 
         adapter = new TweetsAdapter(this, tweets, scrollListener,clickListener);
 
-        app.rvTweets.setLayoutManager(new LinearLayoutManager(this));
-        app.rvTweets.setAdapter(adapter);
+        app.rvPTweets.setLayoutManager(new LinearLayoutManager(this));
+        app.rvPTweets.setAdapter(adapter);
 
-        populateHomeTimeline();
+        app.tvPFollowers.setText(user.followers);
+        app.tvPFollowing.setText(user.following);
+        app.tvPName.setText(user.name);
+        app.tvPScreenName.setText(user.screenName);
+        app.tvPScreenName.setText(user.description);
 
-        Objects.requireNonNull(app.btnLogout).setOnClickListener(v -> {
-            client.clearAccessToken(); // forget who's logged in
-            finish(); // navigate backwards to Login screen
-        });
+        Glide.with(this).load(user.profileImageUrl)
+                .into(app.ivPProfilePicture);
+        Glide.with(this).load(user.bannerImageUrl)
+                .into(app.ivPBanner);
 
-        app.swipeContainer.setOnRefreshListener(this::populateHomeTimeline);
+        populateProfileTimeline(user);
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        progressBar = menu.findItem(R.id.miActionProgress);
-        return super.onPrepareOptionsMenu(menu);
-    }
+    private void populateProfileTimeline(User user) {
 
-    /*public void showProgressBar() {
-        progressBar.setVisible(true);
-    }
-
-    public void hideProgressBar() {
-        progressBar.setVisible(false);
-    }*/
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.compose) {
-            FragmentManager fm = getSupportFragmentManager();
-            ComposeFragment composeFragment = ComposeFragment.newInstance("New Tweet");
-            composeFragment.show(fm, "activity_compose");
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
-        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
-            assert data != null;
-            Tweet tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
-            tweets.add(0,tweet);
-            adapter.notifyItemInserted(0);
-            app.rvTweets.smoothScrollToPosition(0);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void populateHomeTimeline() {
-
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
+        client.getProfileTimeline(user.screenName, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG,"onSuccess"+json.toString());
@@ -142,7 +95,6 @@ public class TimelineActivity extends AppCompatActivity {
                     adapter.clear();
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
                     adapter.notifyDataSetChanged();
-                    app.swipeContainer.setRefreshing(false);
                     maxId = tweets.get(tweets.size()-1).id;
 
                 } catch (JSONException e) {
@@ -159,9 +111,9 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchTweets(String max){
+    private void fetchTweets(User user,String max){
         Log.i("maxId", max);
-        client.getHomeTimeline(max,new JsonHttpResponseHandler() {
+        client.getProfileTimeline(user.screenName,max,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG,"onSuccess"+json.toString());
@@ -183,5 +135,4 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
     }
-
 }

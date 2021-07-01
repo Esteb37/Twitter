@@ -2,9 +2,11 @@ package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,6 +84,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvScreenName;
         TextView tvName;
         TextView tvTime;
+        TextView tvLikes;
+        TextView tvRetweets;
+        TextView tvComments;
         ImageView ivMedia;
         ImageButton btnLike;
         ImageButton btnComment;
@@ -102,7 +107,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             btnRetweet = itemView.findViewById(R.id.btnRetweet);
             llRetweeted = itemView.findViewById(R.id.llRetweeted);
             tvRetweeted = itemView.findViewById(R.id.tvRetweeted);
-
+            tvComments = itemView.findViewById(R.id.tvComments);
+            tvLikes = itemView.findViewById(R.id.tvLikes);
+            tvRetweets = itemView.findViewById(R.id.tvRetweets);
             itemView.setOnClickListener(v -> clickListener.onItemClicked(getAdapterPosition()));
         }
 
@@ -120,6 +127,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName.setText(String.format("@%s", tweet.user.screenName));
             tvName.setText(tweet.user.name);
             tvTime.setText(Tweet.getRelativeTimeAgo(tweet.createdAt));
+            tvLikes.setText(tweet.likes);
+            tvRetweets.setText(tweet.retweets);
             Glide.with(context).load(tweet.user.profileImageUrl)
                     .into(ivProfileImage);
 
@@ -134,6 +143,17 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 ivMedia.setVisibility(View.GONE);
             }
 
+            if(tweet.liked)
+                btnLike.setImageResource(R.drawable.ic_vector_heart);
+
+            else
+                btnLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+
+            if(tweet.retweeted)
+                btnRetweet.setImageResource(R.drawable.ic_vector_retweet);
+            else
+                btnRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+
             btnLike.setOnClickListener(v -> {
                 if(tweet.liked){
                     client.unlikeTweet(tweet.id, new JsonHttpResponseHandler() {
@@ -142,6 +162,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                             Log.d("Unliked","true");
                             tweet.liked = false;
                             btnLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+                            btnLike.setColorFilter(ContextCompat.getColor(context,R.color.inline_action),android.graphics.PorterDuff.Mode.MULTIPLY);;
                         }
 
                         @Override
@@ -156,6 +177,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.d("Liked","true");
                             btnLike.setImageResource(R.drawable.ic_vector_heart);
+
                             tweet.liked = true;
                         }
 
@@ -185,6 +207,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                             Log.d("Unretweeted","true");
                             tweet.retweeted = false;
                             btnRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+
                         }
 
                         @Override
@@ -208,6 +231,12 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         }
                     });
                 }
+            });
+
+            ivProfileImage.setOnClickListener(v -> {
+                Intent i = new Intent(context,ProfileActivity.class);
+                i.putExtra("user",Parcels.wrap(tweet.user));
+                context.startActivity(i);
             });
         }
     }
