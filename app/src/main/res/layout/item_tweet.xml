@@ -124,7 +124,7 @@
     <ImageButton
         android:id="@+id/btnComment"
         android:layout_width="40dp"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_below="@id/ivMedia"
         android:layout_marginStart="4dp"
         android:layout_marginTop="10dp"
@@ -132,12 +132,11 @@
         android:background="#00FFFFFF"
         android:contentDescription="@string/comment"
         android:padding="0dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/vector_compose_dm_fab"
+        android:scaleType="fitCenter"
+        android:src="@drawable/comment"
         android:tint="@color/inline_action"
         app:tint="@color/inline_action"
-        tools:ignore="UseAppTint"
-        tools:srcCompat="@drawable/vector_compose_dm_fab" />
+        tools:ignore="UseAppTint" />
 
     <TextView
         android:id="@+id/tvComments"
@@ -156,7 +155,7 @@
     <ImageButton
         android:id="@+id/btnRetweet"
         android:layout_width="40dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignTop="@+id/tvComments"
         android:layout_alignBottom="@+id/tvComments"
         android:layout_marginStart="0dp"
@@ -189,7 +188,7 @@
     <ImageButton
         android:id="@+id/btnLike"
         android:layout_width="40dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignTop="@+id/tvRetweets"
         android:layout_alignBottom="@+id/tvRetweets"
         android:layout_marginStart="0dp"

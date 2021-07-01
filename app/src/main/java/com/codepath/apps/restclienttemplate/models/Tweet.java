@@ -101,6 +101,7 @@ public class Tweet {
                 JSONObject extendedEntities = jsonObject.getJSONObject("extended_entities");
                 JSONArray media = extendedEntities.getJSONArray("media");
                 tweet.photo = new Media(media.getJSONObject(0));
+                tweet.body = tweet.body.replace(tweet.photo.tinyUrl,"");
             } catch (JSONException e2) {
                 Log.e(TAG, String.valueOf(e2));
             }

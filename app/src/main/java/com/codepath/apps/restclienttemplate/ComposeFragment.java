@@ -1,10 +1,15 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,7 +42,7 @@ public class ComposeFragment extends DialogFragment implements View.OnClickListe
 
     Button btnTweet;
     EditText etCompose;
-    ImageView ivProfile;
+    ImageView ivCProfileImage;
     User currentUser;
 
     public ComposeFragment() {
@@ -61,7 +66,7 @@ public class ComposeFragment extends DialogFragment implements View.OnClickListe
 
         btnTweet= view.findViewById(R.id.btnTweet);
         etCompose= view.findViewById(R.id.etCompose);
-        ivProfile = view.findViewById(R.id.ivCProfileImage);
+        ivCProfileImage = view.findViewById(R.id.ivCProfileImage);
 
         client = TwitterApp.getRestClient(getActivity());
 
@@ -69,8 +74,9 @@ public class ComposeFragment extends DialogFragment implements View.OnClickListe
         assert bundle != null;
         currentUser = Parcels.unwrap(bundle.getParcelable("User"));
 
-        Glide.with(getContext()).load("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.stickpng.com%2Fes%2Fimg%2Ficonos-logotipos-emojis%2Fcompanias-technologicas%2Flogo-twitter&psig=AOvVaw0JLqB_OEaAwoaZO4iIHh5m&ust=1625258521984000&source=images&cd=vfe&ved=0CAoQjRxqFwoTCNja-PjdwvECFQAAAAAdAAAAABAD")
-                .into(ivProfile);
+        Glide.with(getActivity()).load(currentUser.profileImageUrl)
+                .transform(new RoundedCorners(100))
+                .into(ivCProfileImage);
 
 
         btnTweet.setOnClickListener(v -> {
@@ -113,9 +119,25 @@ public class ComposeFragment extends DialogFragment implements View.OnClickListe
     @Override
     public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
 
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        // Assign window properties to fill the parent
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+
         super.onViewCreated(view, savedInstanceState);
     }
 
+    @Override
+    public void onResume() {
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        // Assign window properties to fill the parent
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+        // Call super onResume after sizing
+        super.onResume();
+    }
     @Override
     public void onClick(View v) {
 

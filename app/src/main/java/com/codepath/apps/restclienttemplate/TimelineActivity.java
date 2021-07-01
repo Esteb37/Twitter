@@ -2,18 +2,22 @@ package com.codepath.apps.restclienttemplate;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 
 import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
@@ -52,7 +56,13 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
 
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor("#15202a"));
 
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.custom_action_bar);
 
         app = ActivityTimelineBinding.inflate(getLayoutInflater());
         View view = app.getRoot();
@@ -92,11 +102,6 @@ public class TimelineActivity extends AppCompatActivity {
         populateHomeTimeline();
         getCurrentUser();
 
-        Objects.requireNonNull(app.btnLogout).setOnClickListener(v -> {
-            client.clearAccessToken(); // forget who's logged in
-            finish(); // navigate backwards to Login screen
-        });
-
         app.swipeContainer.setOnRefreshListener(this::populateHomeTimeline);
 
         app.floatingActionButton.setOnClickListener(v->{
@@ -117,7 +122,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        progressBar = menu.findItem(R.id.miActionProgress);
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -131,9 +136,14 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.compose) {
+        if (item.getItemId() == R.id.menuLogout) {
+            TwitterApp.getRestClient(this).clearAccessToken();
 
-
+            // navigate backwards to Login screen
+            Intent i = new Intent(this, LoginActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }

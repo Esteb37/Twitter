@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dark_background"
+    android:gravity="center_vertical"
+    android:padding="0dp"
+    android:weightSum="1">
+
+    <ImageButton
+        android:id="@+id/abBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:background="#00FFFFFF"
+        android:scaleType="fitCenter"
+        app:srcCompat="?attr/homeAsUpIndicator"
+        app:tint="@color/twitter_blue" />
+
+    <TextView
+        android:id="@+id/abTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/abBack"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/abBack"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Tweet"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_logo" />
+</RelativeLayout>

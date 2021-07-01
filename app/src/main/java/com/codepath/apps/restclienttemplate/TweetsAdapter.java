@@ -127,8 +127,21 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName.setText(String.format("@%s", tweet.user.screenName));
             tvName.setText(tweet.user.name);
             tvTime.setText(Tweet.getRelativeTimeAgo(tweet.createdAt));
-            tvLikes.setText(Tweet.formatCount(tweet.likes));
-            tvRetweets.setText(Tweet.formatCount(tweet.retweets));
+            if(tweet.likes>0){
+                tvLikes.setText(Tweet.formatCount(tweet.likes));
+                tvLikes.setVisibility(View.VISIBLE);
+            }
+
+            else
+                tvLikes.setVisibility(View.INVISIBLE);
+
+            if(tweet.retweets>0){
+                tvRetweets.setText(Tweet.formatCount(tweet.retweets));
+                tvRetweets.setVisibility(View.VISIBLE);
+            }
+            else
+                tvRetweets.setVisibility(View.INVISIBLE);
+
             Glide.with(context).load(tweet.user.profileImageUrl)
                     .transform(new RoundedCorners(100))
                     .into(ivProfileImage);
@@ -136,7 +149,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             if(tweet.photo!=null){
                 ivMedia.setVisibility(View.VISIBLE);
                 Glide.with(context).load(tweet.photo.url)
-                        .transform(new CenterCrop(), new RoundedCorners(30))
+                        .transform(new CenterCrop(), new RoundedCorners(80))
                         .into(ivMedia);
 
             }

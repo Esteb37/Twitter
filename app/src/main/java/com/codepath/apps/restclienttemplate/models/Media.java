@@ -8,11 +8,13 @@ import org.parceler.Parcel;
 public class Media {
 
     public String url;
+    public String tinyUrl;
 
     Media(){}
 
     Media(JSONObject jsonObject) throws JSONException {
         url = jsonObject.getString("media_url_https");
+        tinyUrl = jsonObject.getString("url");
     }
 
 }

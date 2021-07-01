@@ -1,14 +1,20 @@
 package com.codepath.apps.restclienttemplate;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.databinding.ActivityProfileBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.User;
@@ -31,6 +37,9 @@ public class ProfileActivity extends AppCompatActivity {
     TweetsAdapter adapter;
     String maxId = "";
     User user;
+
+    TextView title;
+
     public static final String TAG = "ActivityProfile";
 
     @Override
@@ -40,7 +49,19 @@ public class ProfileActivity extends AppCompatActivity {
 
         app = ActivityProfileBinding.inflate(getLayoutInflater());
         View view = app.getRoot();
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor("#15202a"));
+
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.custom_action_bar2);
+        title = findViewById(R.id.abTitle);
+        title.setText("Profile");
+
         setContentView(view);
+
 
         client = TwitterApp.getRestClient(this);
 
@@ -74,6 +95,7 @@ public class ProfileActivity extends AppCompatActivity {
         app.tvPBio.setText(user.description);
 
         Glide.with(this).load(user.profileImageUrl)
+                .transform(new RoundedCorners(100))
                 .into(app.ivPProfilePicture);
         Glide.with(this).load(user.bannerImageUrl)
                 .into(app.ivPBanner);

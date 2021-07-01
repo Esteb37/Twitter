@@ -1,16 +1,22 @@
 package com.codepath.apps.restclienttemplate;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.databinding.ActivityDetailBinding;
@@ -38,6 +44,8 @@ public class DetailActivity extends AppCompatActivity {
     TweetsAdapter adapter;
     String maxId = "";
 
+    TextView title;
+
     public static final String TAG = "DetailActivity";
 
     @Override
@@ -48,6 +56,16 @@ public class DetailActivity extends AppCompatActivity {
         app = ActivityDetailBinding.inflate(getLayoutInflater());
         View view = app.getRoot();
         setContentView(view);
+
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor("#15202a"));
+
+        this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setDisplayShowCustomEnabled(true);
+        getSupportActionBar().setCustomView(R.layout.custom_action_bar2);
+        title = findViewById(R.id.abTitle);
+        title.setText("Tweet");
 
         tweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
 
@@ -94,7 +112,13 @@ public class DetailActivity extends AppCompatActivity {
         Glide.with(this).load(tweet.user.profileImageUrl)
                 .transform(new FitCenter(), new RoundedCorners(100))
                 .into(app.ivDProfilePicture);
+        if(tweet.photo!=null){
+            app.ivPMedia.setVisibility(View.VISIBLE);
+            Glide.with(this).load(tweet.photo.url)
+                    .transform(new CenterCrop(), new RoundedCorners(80))
+                    .into(app.ivPMedia);
 
+        }
         populateRepliesTimeline(tweet.user);
     }
 
