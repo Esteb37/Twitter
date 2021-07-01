@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,6 +18,8 @@ import android.view.View;
 
 import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.TweetDao;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -36,6 +39,7 @@ public class TimelineActivity extends AppCompatActivity {
     ActivityTimelineBinding app;
     MenuItem progressBar;
     String maxId = "0";
+    TweetDao tweetDao;
 
     public static final int REQUEST_CODE = 37;
 
@@ -54,6 +58,7 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(view);
 
         client = TwitterApp.getRestClient(this);
+        tweetDao = ((TwitterApp) getApplicationContext()).getMyDatabase().tweetDao();
 
         TweetsAdapter.OnScrollListener scrollListener = position -> {
             Log.i("Scroll", String.valueOf(position));
@@ -76,6 +81,13 @@ public class TimelineActivity extends AppCompatActivity {
         app.rvTweets.setLayoutManager(new LinearLayoutManager(this));
         app.rvTweets.setAdapter(adapter);
 
+        AsyncTask.execute(() -> {
+            List<TweetWithUser> tweetWithUsers = tweetDao.recentItems();
+            List<Tweet> tweetsFromDB = TweetWithUser.getTweetList(tweetWithUsers);
+            adapter.clear();
+            tweets.addAll(tweetsFromDB);
+            adapter.notifyDataSetChanged();
+        });
         populateHomeTimeline();
 
         Objects.requireNonNull(app.btnLogout).setOnClickListener(v -> {
@@ -84,7 +96,6 @@ public class TimelineActivity extends AppCompatActivity {
         });
 
         app.swipeContainer.setOnRefreshListener(this::populateHomeTimeline);
-
     }
 
     @Override
@@ -140,10 +151,19 @@ public class TimelineActivity extends AppCompatActivity {
                 JSONArray jsonArray = json.jsonArray;
                 try {
                     adapter.clear();
-                    tweets.addAll(Tweet.fromJsonArray(jsonArray));
+                    List<Tweet> tweetList = Tweet.fromJsonArray(jsonArray);
+                    tweets.addAll(tweetList);
                     adapter.notifyDataSetChanged();
                     app.swipeContainer.setRefreshing(false);
                     maxId = tweets.get(tweets.size()-1).id;
+
+                    AsyncTask.execute(() -> {
+
+                        List<User> userList = User.fromJsonTweetArray(tweetList);
+                        tweetDao.insertModel(userList.toArray(new User[0]));
+
+                        tweetDao.insertModel(tweetList.toArray(new Tweet[0]));
+                    });
 
                 } catch (JSONException e) {
                     Log.e(TAG,"JSON Exception",e);

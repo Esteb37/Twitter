@@ -2,6 +2,13 @@ package com.codepath.apps.restclienttemplate.models;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,22 +21,55 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 @Parcel
+@Entity(foreignKeys = @ForeignKey(entity=User.class,parentColumns = "uid",childColumns = "userId"))
 public class Tweet {
 
     private static final String TAG = "Tweet";
-    public String body;
-    public String createdAt;
-    public User user;
-    public User retweeter;
-    public Media photo;
+
+
+    @ColumnInfo
+    @PrimaryKey
+    @NonNull
     public String id;
-    public boolean liked;
-    public boolean retweeted;
-    public String likes;
-    public String retweets;
+
+    @Ignore
+    public User user;
+
+    @ColumnInfo
+    public String userId;
+
+    @Ignore
+    public User retweeter;
+
+    @Ignore
+    public Media photo;
+
+    @ColumnInfo
+    public String body;
+
+    @ColumnInfo
+    public String createdAt;
+
+    @ColumnInfo
     public String source;
+
+    @ColumnInfo
     public String date;
+
+    @ColumnInfo
     public String time;
+
+    @ColumnInfo
+    public int likes;
+
+    @ColumnInfo
+    public int retweets;
+
+    @ColumnInfo
+    public boolean liked;
+
+    @ColumnInfo
+    public boolean retweeted;
 
     public Tweet() {
     }
@@ -45,11 +85,12 @@ public class Tweet {
             tweet.body = jsonObject.getString("text");
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+            tweet.userId = tweet.user.uid;
             tweet.id = jsonObject.getString("id_str");
             tweet.liked = jsonObject.getBoolean("favorited");
             tweet.retweeted = jsonObject.getBoolean("retweeted");
-            tweet.likes = jsonObject.getString("favorite_count");
-            tweet.retweets = jsonObject.getString("retweet_count");
+            tweet.likes = jsonObject.getInt("favorite_count");
+            tweet.retweets = jsonObject.getInt("retweet_count");
             tweet.source = jsonObject.getString("source");
             tweet.date = getDate(tweet.createdAt);
             tweet.time = getTime(tweet.createdAt);

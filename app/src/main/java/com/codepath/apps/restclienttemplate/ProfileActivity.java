@@ -67,8 +67,8 @@ public class ProfileActivity extends AppCompatActivity {
         app.rvPTweets.setLayoutManager(new LinearLayoutManager(this));
         app.rvPTweets.setAdapter(adapter);
 
-        app.tvPFollowers.setText(user.followers);
-        app.tvPFollowing.setText(user.following);
+        app.tvPFollowers.setText(String.valueOf(user.followers));
+        app.tvPFollowing.setText(String.valueOf(user.following));
         app.tvPName.setText(user.name);
         app.tvPScreenName.setText(user.screenName);
         app.tvPScreenName.setText(user.description);

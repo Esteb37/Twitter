@@ -127,8 +127,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName.setText(String.format("@%s", tweet.user.screenName));
             tvName.setText(tweet.user.name);
             tvTime.setText(Tweet.getRelativeTimeAgo(tweet.createdAt));
-            tvLikes.setText(tweet.likes);
-            tvRetweets.setText(tweet.retweets);
+            tvLikes.setText(String.valueOf(tweet.likes));
+            tvRetweets.setText(String.valueOf(tweet.retweets));
             Glide.with(context).load(tweet.user.profileImageUrl)
                     .into(ivProfileImage);
 
