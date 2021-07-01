@@ -174,5 +174,21 @@ public class Tweet {
         return date[3].substring(0,5);
     }
 
+    public static String formatCount(int count){
+
+        String result = String.valueOf(count);
+        if(count>=1000&&count<1000000){
+            int k = count/1000;
+            int h = (count-k*1000)/100;
+            result = String.format("%s.%sK",k,h);
+        }
+        else if(count>=1000000){
+            int m = count/1000000;
+            int k = (count-m*1000000)/100000;
+            result = String.format("%s.%sM",m,k);
+        }
+
+        return result;
+    }
 
 }
