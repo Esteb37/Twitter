@@ -4,30 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_background"
     tools:context=".ProfileActivity">
 
     <ImageView
         android:id="@+id/ivPBanner"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
+        android:layout_width="425dp"
+        android:layout_height="130dp"
+        android:contentDescription="@string/banner"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/backgrounds/scenic"
-        android:contentDescription="@string/banner" />
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <ImageView
         android:id="@+id/ivPProfilePicture"
         android:layout_width="85dp"
         android:layout_height="85dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="-100dp"
+        android:contentDescription="@string/profile_image"
         app:layout_constraintBottom_toBottomOf="@+id/ivPBanner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivPBanner"
-        tools:srcCompat="@tools:sample/avatars"
-        android:contentDescription="@string/profile_image" />
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvPName"
@@ -35,7 +36,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
-        android:textSize="28sp"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/ivPProfilePicture"
@@ -47,18 +49,21 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textSize="20sp"
+        android:textColor="@color/inline_action"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/tvPName"
         app:layout_constraintStart_toStartOf="@+id/tvPName"
         app:layout_constraintTop_toBottomOf="@+id/tvPName"
         tools:text="estebanquitopc" />
 
     <TextView
-        android:id="@+id/ivPBio"
+        android:id="@+id/tvPBio"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="22sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/white"
+        android:textColorLink="@color/twitter_blue"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/tvPScreenName"
         app:layout_constraintStart_toStartOf="@+id/tvPScreenName"
         app:layout_constraintTop_toBottomOf="@+id/tvPScreenName"
@@ -68,11 +73,12 @@
         android:id="@+id/tvPFollowers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:textSize="22sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
         android:textStyle="normal|bold"
-        app:layout_constraintStart_toStartOf="@+id/ivPBio"
-        app:layout_constraintTop_toBottomOf="@id/ivPBio"
+        app:layout_constraintStart_toStartOf="@+id/tvPBio"
+        app:layout_constraintTop_toBottomOf="@id/tvPBio"
         tools:text="111" />
 
     <TextView
@@ -81,7 +87,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:text="@string/followers"
-        android:textSize="22sp"
+        android:textColor="@color/inline_action"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvPFollowers"
         app:layout_constraintStart_toEndOf="@+id/tvPFollowers"
         app:layout_constraintTop_toTopOf="@+id/tvPFollowers" />
@@ -91,7 +98,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:textSize="22sp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
         android:textStyle="normal|bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView5"
         app:layout_constraintStart_toEndOf="@+id/textView5"
@@ -104,18 +112,28 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:text="@string/following"
-        android:textSize="22sp"
+        android:textColor="@color/inline_action"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvPFollowing"
         app:layout_constraintStart_toEndOf="@+id/tvPFollowing"
         app:layout_constraintTop_toTopOf="@+id/tvPFollowing" />
+
+    <View
+        android:id="@+id/divider6"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/inline_action"
+        app:layout_constraintTop_toBottomOf="@id/tvPFollowers"
+        tools:layout_editor_absoluteX="1dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPTweets"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/divider6" />
 </androidx.constraintlayout.widget.ConstraintLayout>

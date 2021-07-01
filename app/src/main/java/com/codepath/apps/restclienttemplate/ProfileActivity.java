@@ -71,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
         app.tvPFollowing.setText(String.valueOf(user.following));
         app.tvPName.setText(user.name);
         app.tvPScreenName.setText(user.screenName);
-        app.tvPScreenName.setText(user.description);
+        app.tvPBio.setText(user.description);
 
         Glide.with(this).load(user.profileImageUrl)
                 .into(app.ivPProfilePicture);

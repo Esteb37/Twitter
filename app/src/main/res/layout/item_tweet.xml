@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
+    android:layout_marginBottom="0dp"
     android:background="@color/dark_background">
 
     <LinearLayout
@@ -136,8 +136,8 @@
         android:src="@drawable/vector_compose_dm_fab"
         android:tint="@color/inline_action"
         app:tint="@color/inline_action"
-        tools:srcCompat="@drawable/vector_compose_dm_fab"
-        tools:ignore="UseAppTint" />
+        tools:ignore="UseAppTint"
+        tools:srcCompat="@drawable/vector_compose_dm_fab" />
 
     <TextView
         android:id="@+id/tvComments"
@@ -169,8 +169,8 @@
         android:padding="0dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_vector_retweet_stroke"
-        tools:srcCompat="@drawable/ic_vector_retweet_stroke"
-        app:tint="@color/inline_action" />
+        app:tint="@color/inline_action"
+        tools:srcCompat="@drawable/ic_vector_retweet_stroke" />
 
     <TextView
         android:id="@+id/tvRetweets"
@@ -201,8 +201,8 @@
         android:padding="0dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_vector_heart_stroke"
-        tools:srcCompat="@drawable/ic_vector_heart_stroke"
-        app:tint="@color/inline_action" />
+        app:tint="@color/inline_action"
+        tools:srcCompat="@drawable/ic_vector_heart_stroke" />
 
     <TextView
         android:id="@+id/tvLikes"
@@ -223,8 +223,8 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_below="@id/btnComment"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/inline_action" />
 
 </RelativeLayout>
