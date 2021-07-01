@@ -10,6 +10,13 @@ import com.codepath.oauth.OAuthBaseClient;
 import com.github.scribejava.apis.TwitterApi;
 import com.github.scribejava.core.builder.api.BaseApi;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * 
  * This is the object responsible for communicating with a REST API. 
@@ -135,10 +142,23 @@ public class TwitterClient extends OAuthBaseClient {
 		client.get(apiUrl,null,handler);
 	}
 
-	public void getMentions(String id,JsonHttpResponseHandler handler){
-		String apiUrl = getApiUrl("statuses/mentions_timeline.json");
+	public void getUserMentions(String screenName,JsonHttpResponseHandler handler){
+		String apiUrl = getApiUrl("search/tweets.json");
 		RequestParams params = new RequestParams();
-		params.put("id",id);
+		params.put("q","@"+screenName);
+		params.put("count","100");
 		client.get(apiUrl,params,handler);
+	}
+
+	public List<Tweet> parseReplies(JSONArray mentions,Tweet tweet) throws JSONException {
+		List<Tweet> replies = new ArrayList<>();
+		JSONObject mention;
+		for(int i = 0;i<mentions.length();i++){
+			mention	= (JSONObject) mentions.get(i);
+			if(mention.getString("in_reply_to_status_id_str").equals(tweet.id)){
+				replies.add(Tweet.fromJson(mention));
+			}
+		}
+		return replies;
 	}
 }
