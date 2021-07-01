@@ -7,15 +7,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.util.Objects;
 
@@ -30,7 +37,8 @@ public class ComposeFragment extends DialogFragment implements View.OnClickListe
 
     Button btnTweet;
     EditText etCompose;
-
+    ImageView ivProfile;
+    User currentUser;
 
     public ComposeFragment() {
 
@@ -53,8 +61,16 @@ public class ComposeFragment extends DialogFragment implements View.OnClickListe
 
         btnTweet= view.findViewById(R.id.btnTweet);
         etCompose= view.findViewById(R.id.etCompose);
+        ivProfile = view.findViewById(R.id.ivCProfileImage);
 
         client = TwitterApp.getRestClient(getActivity());
+
+        Bundle bundle = this.getArguments();
+        assert bundle != null;
+        currentUser = Parcels.unwrap(bundle.getParcelable("User"));
+
+        Glide.with(getContext()).load("https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.stickpng.com%2Fes%2Fimg%2Ficonos-logotipos-emojis%2Fcompanias-technologicas%2Flogo-twitter&psig=AOvVaw0JLqB_OEaAwoaZO4iIHh5m&ust=1625258521984000&source=images&cd=vfe&ved=0CAoQjRxqFwoTCNja-PjdwvECFQAAAAAdAAAAABAD")
+                .into(ivProfile);
 
 
         btnTweet.setOnClickListener(v -> {
@@ -96,6 +112,7 @@ public class ComposeFragment extends DialogFragment implements View.OnClickListe
 
     @Override
     public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
     }
 

@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import android.content.Context;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.RequestParams;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.codepath.oauth.OAuthBaseClient;
@@ -127,5 +128,17 @@ public class TwitterClient extends OAuthBaseClient {
 		RequestParams params = new RequestParams();
 		params.put("id",id);
 		client.post(apiUrl,params,"",handler);
+	}
+
+	public void getCurrentUser(JsonHttpResponseHandler handler){
+		String apiUrl = getApiUrl("account/verify_credentials.json");
+		client.get(apiUrl,null,handler);
+	}
+
+	public void getMentions(String id,JsonHttpResponseHandler handler){
+		String apiUrl = getApiUrl("statuses/mentions_timeline.json");
+		RequestParams params = new RequestParams();
+		params.put("id",id);
+		client.get(apiUrl,params,handler);
 	}
 }

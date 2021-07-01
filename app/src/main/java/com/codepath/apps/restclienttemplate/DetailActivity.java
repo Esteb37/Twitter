@@ -12,13 +12,23 @@ import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.databinding.ActivityDetailBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.User;
 
 import org.parceler.Parcels;
+
+import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
 
     ActivityDetailBinding app;
     Tweet tweet;
+
+    TwitterClient client;
+    List<Tweet> tweets;
+    TweetsAdapter adapter;
+    String maxId = "";
+    User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +43,8 @@ public class DetailActivity extends AppCompatActivity {
         app.tvDName.setText(tweet.user.name);
         app.tvDScreenName.setText(tweet.user.screenName);
         app.tvDContent.setText(tweet.body);
-        app.tvDLikes.setText(String.valueOf(tweet.likes));
-        app.tvDRetweets.setText(String.valueOf(tweet.retweets));
+        app.tvDLikes.setText(Tweet.formatCount(tweet.likes));
+        app.tvDRetweets.setText(Tweet.formatCount(tweet.retweets));
         app.tvDSource.setText(Html.fromHtml(tweet.source));
         app.tvDDate.setText(tweet.date);
         app.tvDTime.setText(tweet.time);
@@ -50,6 +60,8 @@ public class DetailActivity extends AppCompatActivity {
         Glide.with(this).load(tweet.user.profileImageUrl)
                 .transform(new FitCenter(), new RoundedCorners(100))
                 .into(app.ivDProfilePicture);
-
     }
+
+
+
 }

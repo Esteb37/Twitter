@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_background"
     tools:context=".DetailActivity">
 
     <LinearLayout
         android:id="@+id/llDRetweeted"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible">
@@ -21,20 +23,21 @@
             android:id="@+id/ivDRetweeted"
             android:layout_width="15dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
             android:layout_marginTop="-2dp"
+            android:contentDescription="@string/retweeted"
             android:cropToPadding="false"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_vector_retweet_stroke"
+            app:tint="@color/inline_action"
             tools:visibility="visible" />
 
         <TextView
             android:id="@+id/tvDRetweeted"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="false"
             android:layout_marginStart="5dp"
             android:layout_weight="1"
+            android:textColor="@color/inline_action"
             android:textStyle="bold"
             android:visibility="visible"
             tools:text="Estebanquito Retweeted" />
@@ -42,8 +45,8 @@
 
     <ImageView
         android:id="@+id/ivDProfilePicture"
-        android:layout_width="78dp"
-        android:layout_height="78dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="5dp"
         android:contentDescription="@string/profile_image"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,12 +58,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="5dp"
+        android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ivDProfilePicture"
         app:layout_constraintTop_toTopOf="@+id/ivDProfilePicture"
         tools:text="Estebanquito" />
@@ -71,7 +75,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/inline_action"
         app:layout_constraintBottom_toBottomOf="@+id/ivDProfilePicture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -82,13 +87,14 @@
         android:id="@+id/tvDContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="5dp"
+        android:autoLink="all"
+        android:textColor="@android:color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/ivDProfilePicture"
         app:layout_constraintTop_toBottomOf="@+id/ivDProfilePicture"
-        android:autoLink="all"
         tools:text="This is a Tweet" />
 
     <TextView
@@ -96,6 +102,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textColor="@color/inline_action"
         app:layout_constraintStart_toStartOf="@+id/tvDContent"
         app:layout_constraintTop_toBottomOf="@+id/tvDContent"
         tools:text="4:54 p.m." />
@@ -105,6 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
+        android:textColor="@color/inline_action"
         app:layout_constraintStart_toEndOf="@+id/tvDTime"
         app:layout_constraintTop_toTopOf="@+id/tvDTime"
         tools:text="19 jun. 21" />
@@ -114,6 +122,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
+        android:textColor="@color/twitter_blue"
+        android:textColorLink="@color/twitter_blue"
         app:layout_constraintStart_toEndOf="@+id/tvDDate"
         app:layout_constraintTop_toTopOf="@+id/tvDDate"
         tools:text="Twitter for Iphone" />
@@ -121,9 +131,9 @@
     <View
         android:id="@+id/divider2"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="10dp"
-        android:background="?android:attr/listDivider"
+        android:background="@color/inline_action"
         app:layout_constraintTop_toBottomOf="@+id/tvDDate" />
 
     <TextView
@@ -131,6 +141,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:textColor="@color/inline_action"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/tvDTime"
@@ -143,6 +154,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:text="@string/retweets"
+        android:textColor="@color/inline_action"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvDRetweets"
         app:layout_constraintStart_toEndOf="@+id/tvDRetweets"
@@ -153,6 +165,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:textColor="@color/inline_action"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/textView8"
@@ -166,6 +179,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:text="@string/likes"
+        android:textColor="@color/inline_action"
         app:layout_constraintBottom_toBottomOf="@+id/tvDLikes"
         app:layout_constraintStart_toEndOf="@+id/tvDLikes"
         app:layout_constraintTop_toTopOf="@+id/tvDLikes" />
@@ -173,9 +187,9 @@
     <View
         android:id="@+id/divider3"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="10dp"
-        android:background="?android:attr/listDivider"
+        android:background="@color/inline_action"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <LinearLayout
@@ -193,25 +207,55 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#00FFFFFF"
+            android:backgroundTint="@color/inline_action"
+            android:contentDescription="@string/comment"
             app:srcCompat="@drawable/vector_compose_dm_fab"
-            android:contentDescription="@string/comment" />
+            app:tint="@color/inline_action" />
 
         <ImageButton
             android:id="@+id/btnDRetweet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/retweet"
             app:srcCompat="@drawable/ic_vector_retweet_stroke"
-            android:contentDescription="@string/retweet" />
+            app:tint="@color/inline_action" />
 
         <ImageButton
             android:id="@+id/btnDLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/like"
             app:srcCompat="@drawable/ic_vector_heart_stroke"
-            android:contentDescription="@string/like" />
+            app:tint="@color/inline_action" />
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/inline_action"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:layout_editor_absoluteX="1dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="409dp"
+        android:layout_height="484dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider4"
+        app:layout_constraintVertical_bias="0.0">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

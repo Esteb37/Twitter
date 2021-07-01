@@ -40,6 +40,7 @@ public class TimelineActivity extends AppCompatActivity {
     MenuItem progressBar;
     String maxId = "0";
     TweetDao tweetDao;
+    User currentUser;
 
     public static final int REQUEST_CODE = 37;
 
@@ -89,6 +90,7 @@ public class TimelineActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         });
         populateHomeTimeline();
+        getCurrentUser();
 
         Objects.requireNonNull(app.btnLogout).setOnClickListener(v -> {
             client.clearAccessToken(); // forget who's logged in
@@ -96,6 +98,15 @@ public class TimelineActivity extends AppCompatActivity {
         });
 
         app.swipeContainer.setOnRefreshListener(this::populateHomeTimeline);
+
+        app.floatingActionButton.setOnClickListener(v->{
+            FragmentManager fm = getSupportFragmentManager();
+            ComposeFragment composeFragment = ComposeFragment.newInstance("New Tweet");
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("User",Parcels.wrap(currentUser));
+            composeFragment.setArguments(bundle);
+            composeFragment.show(fm, "activity_compose");
+        });
     }
 
     @Override
@@ -121,9 +132,7 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.compose) {
-            FragmentManager fm = getSupportFragmentManager();
-            ComposeFragment composeFragment = ComposeFragment.newInstance("New Tweet");
-            composeFragment.show(fm, "activity_compose");
+
 
         }
         return super.onOptionsItemSelected(item);
@@ -204,4 +213,22 @@ public class TimelineActivity extends AppCompatActivity {
         });
     }
 
+    private void getCurrentUser(){
+        client.getCurrentUser(new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                try {
+                    currentUser = User.fromJson(json.jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.d("User","success");
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                Log.d("User","success");
+            }
+        });
+    }
 }
