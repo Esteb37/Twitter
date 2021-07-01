@@ -98,13 +98,13 @@ public class TimelineActivity extends AppCompatActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    public void showProgressBar() {
+    /*public void showProgressBar() {
         progressBar.setVisible(true);
     }
 
     public void hideProgressBar() {
         progressBar.setVisible(false);
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

@@ -103,20 +103,19 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             llRetweeted = itemView.findViewById(R.id.llRetweeted);
             tvRetweeted = itemView.findViewById(R.id.tvRetweeted);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickListener.onItemClicked(getAdapterPosition());
-                }
-            });
+            itemView.setOnClickListener(v -> clickListener.onItemClicked(getAdapterPosition()));
         }
 
         public void bind(Tweet tweet){
 
             if(tweet.retweeter!=null){
                 llRetweeted.setVisibility(View.VISIBLE);
-                tvRetweeted.setText(tweet.retweeter.name+" Retweeted");
+                tvRetweeted.setText(String.format("%s Retweeted", tweet.retweeter.name));
             }
+            else{
+                llRetweeted.setVisibility(View.GONE);
+            }
+
             tvBody.setText(tweet.body);
             tvScreenName.setText(String.format("@%s", tweet.user.screenName));
             tvName.setText(tweet.user.name);

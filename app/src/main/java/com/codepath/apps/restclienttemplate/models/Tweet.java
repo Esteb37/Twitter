@@ -10,7 +10,6 @@ import org.parceler.Parcel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -131,8 +130,7 @@ public class Tweet {
 
     public static String getTime(String rawDate){
         String[] date = rawDate.split(" ");
-        String time = date[3].substring(0,5);
-        return time;
+        return date[3].substring(0,5);
     }
 
 

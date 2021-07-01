@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.codepath.apps.restclienttemplate.databinding.ActivityDetailBinding;
-import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import org.parceler.Parcels;
@@ -19,7 +18,6 @@ import org.parceler.Parcels;
 public class DetailActivity extends AppCompatActivity {
 
     ActivityDetailBinding app;
-    Context context;
     Tweet tweet;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +38,14 @@ public class DetailActivity extends AppCompatActivity {
         app.tvDSource.setText(Html.fromHtml(tweet.source));
         app.tvDDate.setText(tweet.date);
         app.tvDTime.setText(tweet.time);
+
+        if(tweet.retweeter!=null){
+            app.tvDRetweeted.setText(String.format("%s Retweeted", tweet.retweeter.name));
+            app.llDRetweeted.setVisibility(View.VISIBLE);
+        }
+        else{
+            app.llDRetweeted.setVisibility(View.GONE);
+        }
 
         Glide.with(this).load(tweet.user.profileImageUrl)
                 .transform(new FitCenter(), new RoundedCorners(100))
