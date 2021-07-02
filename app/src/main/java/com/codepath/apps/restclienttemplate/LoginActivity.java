@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
+
 import com.codepath.apps.restclienttemplate.models.SampleModel;
 import com.codepath.apps.restclienttemplate.models.SampleModelDao;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
@@ -24,6 +26,10 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 		sampleModel.setName("CodePath");
 
 		sampleModelDao = ((TwitterApp) getApplicationContext()).getMyDatabase().sampleModelDao();
+
+		this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		getSupportActionBar().setDisplayShowCustomEnabled(true);
+		getSupportActionBar().setCustomView(R.layout.custom_action_bar);
 
 		AsyncTask.execute(() -> sampleModelDao.insertModel(sampleModel));
 	}

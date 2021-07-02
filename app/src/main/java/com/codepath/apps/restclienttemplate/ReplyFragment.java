@@ -27,8 +27,10 @@ public class ReplyFragment extends DialogFragment implements View.OnClickListene
     TwitterClient client;
     public static final String TAG ="ReplyActivity";
     public static final int MAX_TWEET_LENGTH = 140;
+
     Button btnReply;
     EditText etReply;
+
     public ReplyFragment() {
 
     }
@@ -53,8 +55,6 @@ public class ReplyFragment extends DialogFragment implements View.OnClickListene
         btnReply = view.findViewById(R.id.btnReply);
 
         client = TwitterApp.getRestClient(getActivity());
-
-
 
         btnReply.setOnClickListener(v -> {
             String tweetContent = String.valueOf(etReply.getText());
