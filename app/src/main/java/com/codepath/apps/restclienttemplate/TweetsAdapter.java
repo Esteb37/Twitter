@@ -176,7 +176,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                             Log.d("Unliked","true");
                             tweet.liked = false;
                             btnLike.setImageResource(R.drawable.ic_vector_heart_stroke);
-                            btnLike.setColorFilter(ContextCompat.getColor(context,R.color.inline_action),android.graphics.PorterDuff.Mode.MULTIPLY);;
+                            btnLike.setColorFilter(ContextCompat.getColor(context,R.color.inline_action),android.graphics.PorterDuff.Mode.MULTIPLY);
                         }
 
                         @Override

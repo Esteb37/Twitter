@@ -20,6 +20,8 @@ import org.json.JSONException;
 import org.parceler.Parcels;
 
 
+import java.util.Objects;
+
 import okhttp3.Headers;
 
 public class ReplyFragment extends DialogFragment implements View.OnClickListener {
@@ -99,11 +101,11 @@ public class ReplyFragment extends DialogFragment implements View.OnClickListene
     @Override
     public void onResume() {
         // Get existing layout params for the window
-        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        WindowManager.LayoutParams params = Objects.requireNonNull(getDialog()).getWindow().getAttributes();
         // Assign window properties to fill the parent
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
         params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+        getDialog().getWindow().setAttributes(params);
         // Call super onResume after sizing
         super.onResume();
     }

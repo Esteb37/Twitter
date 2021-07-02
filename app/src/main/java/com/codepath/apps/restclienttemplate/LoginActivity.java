@@ -1,7 +1,5 @@
 package com.codepath.apps.restclienttemplate;
-
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,29 +7,35 @@ import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 
-import com.codepath.apps.restclienttemplate.models.SampleModel;
-import com.codepath.apps.restclienttemplate.models.SampleModelDao;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 
+import java.util.Objects;
+
+/*
+	Screen for logging into the application
+ */
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 
-	SampleModelDao sampleModelDao;
-	
+	/*
+        Sets up the screen's items
+
+        @param savedInstanceState - Current state of the screen
+
+        @return void
+     */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
+		//Set screen's current state
 		super.onCreate(savedInstanceState);
+
+		//Set the activity's layout xml
 		setContentView(R.layout.activity_login);
 
-		final SampleModel sampleModel = new SampleModel();
-		sampleModel.setName("CodePath");
-
-		sampleModelDao = ((TwitterApp) getApplicationContext()).getMyDatabase().sampleModelDao();
-
-		this.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		//Set the action bar to a custom layout
+		Objects.requireNonNull(this.getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		getSupportActionBar().setDisplayShowCustomEnabled(true);
 		getSupportActionBar().setCustomView(R.layout.custom_action_bar);
-
-		AsyncTask.execute(() -> sampleModelDao.insertModel(sampleModel));
 	}
 
 

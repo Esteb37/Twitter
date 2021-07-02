@@ -8,7 +8,6 @@
     <string name="profile_image">Profile Image</string>
     <string name="what_s_happening">What\'s happening?</string>
     <string name="button">Button</string>
-    <string name="tweet">Tweet</string>
     <string name="what_s_on_your_mind">What\'s on your mind?</string>
     <string name="media">Media</string>
     <string name="comment">Comment</string>
@@ -54,5 +53,7 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="tweet">Tweet</string>
+    <string name="profile">Profile</string>
 
 </resources>
