@@ -139,6 +139,17 @@ public class DetailActivity extends AppCompatActivity {
         app.tvDDate.setText(tweet.date);
         app.tvDTime.setText(tweet.time);
 
+        if(tweet.liked)
+            app.btnDLike.setImageResource(R.drawable.ic_vector_heart);
+
+        else
+            app.btnDLike.setImageResource(R.drawable.ic_vector_heart_stroke);
+
+        if(tweet.retweeted)
+            app.btnDRetweet.setImageResource(R.drawable.ic_vector_retweet);
+        else
+            app.btnDRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+
         //If the tweet was retweeted
         if(tweet.retweeter!=null){
 

@@ -175,8 +175,15 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.d("Unliked","true");
                             tweet.liked = false;
+                            tweet.likes-=1;
                             btnLike.setImageResource(R.drawable.ic_vector_heart_stroke);
-                            btnLike.setColorFilter(ContextCompat.getColor(context,R.color.inline_action),android.graphics.PorterDuff.Mode.MULTIPLY);
+                            if(tweet.likes>0) {
+                                tvLikes.setText(Tweet.formatCount(tweet.likes));
+                                tvLikes.setVisibility(View.VISIBLE);
+                            }
+                            else
+                                tvLikes.setVisibility(View.INVISIBLE);
+
                         }
 
                         @Override
@@ -191,8 +198,14 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.d("Liked","true");
                             btnLike.setImageResource(R.drawable.ic_vector_heart);
-
+                            tweet.likes+=1;
                             tweet.liked = true;
+                            if(tweet.likes>0) {
+                                tvLikes.setText(Tweet.formatCount(tweet.likes));
+                                tvLikes.setVisibility(View.VISIBLE);
+                            }
+                            else
+                                tvLikes.setVisibility(View.INVISIBLE);
                         }
 
                         @Override
@@ -220,7 +233,14 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.d("Unretweeted","true");
                             tweet.retweeted = false;
+                            tweet.retweets-=1;
                             btnRetweet.setImageResource(R.drawable.ic_vector_retweet_stroke);
+                            if(tweet.retweets>0) {
+                                tvRetweets.setText(Tweet.formatCount(tweet.retweets));
+                                tvRetweets.setVisibility(View.VISIBLE);
+                            }
+                            else
+                                tvRetweets.setVisibility(View.INVISIBLE);
 
                         }
 
@@ -236,7 +256,15 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
                             Log.d("Retweeted","true");
                             btnRetweet.setImageResource(R.drawable.ic_vector_retweet);
+                            tweet.retweets+=1;
                             tweet.retweeted = true;
+                            if(tweet.retweets>0) {
+                                tvRetweets.setText(Tweet.formatCount(tweet.retweets));
+                                tvRetweets.setVisibility(View.VISIBLE);
+                            }
+                            else
+                                tvRetweets.setVisibility(View.INVISIBLE);
+
                         }
 
                         @Override

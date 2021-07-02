@@ -236,8 +236,7 @@
             android:layout_weight="1"
             android:background="#00FFFFFF"
             android:contentDescription="@string/retweet"
-            app:srcCompat="@drawable/ic_vector_retweet_stroke"
-            app:tint="@color/inline_action" />
+            app:srcCompat="@drawable/ic_vector_retweet_stroke" />
 
         <ImageButton
             android:id="@+id/btnDLike"
@@ -246,8 +245,7 @@
             android:layout_weight="1"
             android:background="#00FFFFFF"
             android:contentDescription="@string/like"
-            app:srcCompat="@drawable/ic_vector_heart_stroke"
-            app:tint="@color/inline_action" />
+            app:srcCompat="@drawable/ic_vector_heart_stroke" />
 
     </LinearLayout>
 

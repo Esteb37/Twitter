@@ -158,7 +158,6 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG,"onSuccess"+json.toString());
-                Log.i(TAG,"onSuccess"+json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
                     adapter.clear();
@@ -185,7 +184,7 @@ public class TimelineActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.i(TAG,"onFail",throwable);
+                Log.i(TAG,"onFail"+response,throwable);
             }
         });
     }
@@ -210,7 +209,7 @@ public class TimelineActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.i(TAG,"onFail",throwable);
+                Log.i(TAG,"onFail"+response,throwable);
             }
         });
     }
@@ -229,7 +228,7 @@ public class TimelineActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.d("User","success");
+                Log.d("User","failure");
             }
         });
     }
