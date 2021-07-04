@@ -1,4 +1,4 @@
-package com.codepath.apps.restclienttemplate;
+package com.codepath.apps.restclienttemplate.activities;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +15,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.codepath.apps.restclienttemplate.R;
+import com.codepath.apps.restclienttemplate.adapters.TweetsAdapter;
+import com.codepath.apps.restclienttemplate.client.TwitterApp;
+import com.codepath.apps.restclienttemplate.client.TwitterClient;
 import com.codepath.apps.restclienttemplate.databinding.ActivityDetailBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -161,7 +165,7 @@ public class DetailActivity extends AppCompatActivity {
         //If the tweet is original
         else{
 
-            //Hide "retweeted by banner"
+            //Hide "retweeted by" banner
             app.llDRetweeted.setVisibility(View.GONE);
         }
 

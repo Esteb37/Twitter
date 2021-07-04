@@ -1,4 +1,4 @@
-package com.codepath.apps.restclienttemplate;
+package com.codepath.apps.restclienttemplate.fragments;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +10,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.codepath.apps.restclienttemplate.R;
+import com.codepath.apps.restclienttemplate.client.TwitterApp;
+import com.codepath.apps.restclienttemplate.client.TwitterClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import org.jetbrains.annotations.NotNull;
 import java.util.Objects;

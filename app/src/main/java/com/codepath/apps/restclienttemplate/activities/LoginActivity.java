@@ -1,4 +1,4 @@
-package com.codepath.apps.restclienttemplate;
+package com.codepath.apps.restclienttemplate.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +7,8 @@ import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 
+import com.codepath.apps.restclienttemplate.R;
+import com.codepath.apps.restclienttemplate.client.TwitterClient;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
 
 import java.util.Objects;
