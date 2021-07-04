@@ -3,10 +3,6 @@ package com.codepath.apps.restclienttemplate.models;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-import com.codepath.apps.restclienttemplate.models.Tweet;
-import com.codepath.apps.restclienttemplate.models.TweetDao;
-import com.codepath.apps.restclienttemplate.models.User;
-
 /*
     Database for handling timeline persistence and offline viewing
  */

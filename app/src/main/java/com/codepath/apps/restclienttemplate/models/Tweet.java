@@ -36,7 +36,7 @@ public class Tweet {
     @PrimaryKey
     @NonNull
     //Unique Tweet ID
-    public String id;
+    public String id = "";
 
     //The user that published the tweet
     @Ignore
@@ -112,7 +112,7 @@ public class Tweet {
         Tweet tweet = new Tweet();
 
         //Check if the tweet is actually a retweet
-        try{
+        if(jsonObject.has("retweeted_status")){
 
             //Get the original tweet
             JSONObject retweetStatus = jsonObject.getJSONObject("retweeted_status");
@@ -122,9 +122,10 @@ public class Tweet {
 
             //Set the user that retweeted the tweet
             tweet.retweeter = User.fromJson(jsonObject.getJSONObject("user"));
+        }
 
-        //If the tweet is not a retweet
-        }catch(JSONException notRetweet){
+        //If the tweet is original
+        else {
 
             //Set the tweet information from the jsonObject
             tweet.body = jsonObject.getString("text");
@@ -158,7 +159,6 @@ public class Tweet {
             } catch (JSONException noMedia) {
                 Log.d(TAG,"No Media");
             }
-
         }
 
         //Return the generated tweet

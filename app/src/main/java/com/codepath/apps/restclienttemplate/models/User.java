@@ -24,7 +24,7 @@ public class User {
     @ColumnInfo
     @PrimaryKey
     @NonNull
-    public String uid;
+    public String uid = "";
 
     //Chosen name
     @ColumnInfo
